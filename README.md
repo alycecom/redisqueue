@@ -1,11 +1,11 @@
 # redisqueue
 
 ![Version](https://img.shields.io/badge/version-v1.0.1-green.svg)
-[![GoDoc](https://godoc.org/github.com/robinjoseph08/redisqueue?status.svg)](https://godoc.org/github.com/robinjoseph08/redisqueue)
-[![Build Status](https://travis-ci.org/robinjoseph08/redisqueue.svg?branch=master)](https://travis-ci.org/robinjoseph08/redisqueue)
-[![Coverage Status](https://coveralls.io/repos/github/robinjoseph08/redisqueue/badge.svg?branch=master)](https://coveralls.io/github/robinjoseph08/redisqueue?branch=master)
-[![Go Report Card](https://goreportcard.com/badge/github.com/robinjoseph08/redisqueue)](https://goreportcard.com/report/github.com/robinjoseph08/redisqueue)
-![License](https://img.shields.io/github/license/robinjoseph08/redisqueue.svg)
+[![GoDoc](https://godoc.org/github.com/alycecom/redisqueue?status.svg)](https://godoc.org/github.com/alycecom/redisqueue)
+[![Build Status](https://travis-ci.org/alycecom/redisqueue.svg?branch=master)](https://travis-ci.org/alycecom/redisqueue)
+[![Coverage Status](https://coveralls.io/repos/github/alycecom/redisqueue/badge.svg?branch=master)](https://coveralls.io/github/alycecom/redisqueue?branch=master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/alycecom/redisqueue)](https://goreportcard.com/report/github.com/alycecom/redisqueue)
+![License](https://img.shields.io/github/license/alycecom/redisqueue.svg)
 
 `redisqueue` provides a producer and consumer of a queue that uses [Redis
 streams](https://redis.io/topics/streams-intro).
@@ -40,7 +40,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/robinjoseph08/redisqueue"
+	"github.com/alycecom/redisqueue"
 )
 
 func main() {
@@ -79,7 +79,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/robinjoseph08/redisqueue"
+	"github.com/alycecom/redisqueue"
 )
 
 func main() {
