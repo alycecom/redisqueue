@@ -26,27 +26,36 @@ func newRedisClient(options *RedisOptions) (*redis.Client, error) {
 	}
 	client := redis.NewClient(options)
 
-	// make sure Redis supports streams (i.e. is at least v5)
-	info, err := client.Info("server").Result()
+	err := CheckRedisVersion(client)
 	if err != nil {
 		return nil, err
 	}
 
+	return client, nil
+}
+
+// make sure Redis supports streams (i.e. is at least v5)
+func CheckRedisVersion(client *redis.Client) error {
+	info, err := client.Info("server").Result()
+	if err != nil {
+		return err
+	}
+
 	match := redisVersionRE.FindAllStringSubmatch(info, -1)
 	if len(match) < 1 {
-		return nil, fmt.Errorf("could not extract redis version")
+		return fmt.Errorf("could not extract redis version")
 	}
 	version := strings.TrimSpace(match[0][1])
 	parts := strings.Split(version, ".")
 	major, err := strconv.Atoi(parts[0])
 	if err != nil {
-		return nil, err
+		return err
 	}
 	if major < 5 {
-		return nil, fmt.Errorf("redis streams are not supported in version %q", version)
+		return fmt.Errorf("redis streams are not supported in version %q", version)
 	}
 
-	return client, nil
+	return nil
 }
 
 // incrementMessageID takes in a message ID (e.g. 1564886140363-0) and

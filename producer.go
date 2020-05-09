@@ -22,6 +22,14 @@ type ProducerOptions struct {
 	// RedisOptions is how you configure the underlying Redis connection. More
 	// info here: https://godoc.org/github.com/go-redis/redis#Options.
 	RedisOptions *RedisOptions
+	// Existent RedisClient could be passed.
+	// In case it's nil - internal Redis Client will be created.
+	RedisClient *redis.Client
+}
+
+var defaultProducerOptions = &ProducerOptions{
+	StreamMaxLength:      1000,
+	ApproximateMaxLength: true,
 }
 
 // Producer adds a convenient wrapper around enqueuing messages that will be
@@ -29,11 +37,6 @@ type ProducerOptions struct {
 type Producer struct {
 	options *ProducerOptions
 	redis   *redis.Client
-}
-
-var defaultProducerOptions = &ProducerOptions{
-	StreamMaxLength:      1000,
-	ApproximateMaxLength: true,
 }
 
 // NewProducer uses a default set of options to create a Producer. It sets
@@ -45,14 +48,23 @@ func NewProducer() (*Producer, error) {
 
 // NewProducerWithOptions creates a Producer using custom ProducerOptions.
 func NewProducerWithOptions(options *ProducerOptions) (*Producer, error) {
-	r, err := newRedisClient(options.RedisOptions)
-	if err != nil {
-		return nil, err
+	var err error
+
+	if options.RedisClient == nil {
+		options.RedisClient, err = newRedisClient(options.RedisOptions)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		err = CheckRedisVersion(options.RedisClient)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return &Producer{
 		options: options,
-		redis:   r,
+		redis:   options.RedisClient,
 	}, nil
 }
 

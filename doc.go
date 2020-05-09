@@ -7,7 +7,7 @@ Features
 The features of this package include:
 
     - A `Producer` struct to make enqueuing messages easy.
-    - A `Consumer` struct to make processing messages concurrenly.
+    - A `Consumer` struct to make processing messages concurrently.
     - Claiming and acknowledging messages if there's no error, so that if a consumer
       dies while processing, the message it was working on isn't lost. This
       guarantees at least once delivery.
